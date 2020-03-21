@@ -1,20 +1,25 @@
 {
-    "name": "delboy1978uk\/bone-passport",
-    "description": "Passport package for Bone Framework",
+    "name": "delboy1978uk/bone-passport",
+    "description": "ACL package for Bone Framework",
     "license": "MIT",
     "authors": [
         {
-            "name": "Derek Stepehn McLean",
+            "name": "Derek Stephen McLean",
             "email": "delboy1978uk@gmail.com"
         }
     ],
-    "require": [],
+    "require": {
+        "php": ">7.1",
+        "delboy1978uk/barnacle": "^2.2",
+        "delboy1978uk/bone-doctrine": "^1.1",
+        "delboy1978uk/passport": "*"
+    },
     "require-dev": {
-        "roave\/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Bone\\Passport\\": "src\/"
+            "Bone\\Passport\\": "src/"
         }
     }
 }
