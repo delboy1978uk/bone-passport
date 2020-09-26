@@ -2,6 +2,7 @@
 
 namespace Bone\Passport\Command;
 
+use Bone\Exception;
 use Del\Passport\Entity\Role;
 use Del\Passport\PassportControl;
 use Symfony\Component\Console\Command\Command;
@@ -51,10 +52,15 @@ class RoleCommand extends Command
         $operation = $input->getArgument('operation');
         $role = $input->getArgument('role');
 
-        if ($operation === 'add') {
-            $this->addRole($role, $input, $output);
-        } else {
-            $this->removeRole($role, $input, $output);
+        switch ($operation) {
+            case 'add':
+                $this->addRole($role, $input, $output);
+                break;
+            case 'remove':
+                $this->removeRole($role, $input, $output);
+                break;
+            default:
+                throw new Exception('Invalid operation, use either add or remove.');
         }
 
         return 0;
@@ -68,14 +74,20 @@ class RoleCommand extends Command
     private function addRole(string $name, InputInterface $input, OutputInterface $output): void
     {
         $output->writeln('Creating ' . $name . ' role.');
-        $question = new Question('Type in the parent role that manages this role, if any.  ', false);
         $helper = $this->getHelper('question');
+        $question = new Question('Type in the parent role that manages this role, if any.  ', false);
         $parent = $helper->ask($input, $output, $question);
+        $question = new Question('Type in the class this role manages, if any.  ', false);
+        $class = $helper->ask($input, $output, $question);
         $role = new Role();
         $role->setRoleName($name);
 
         if ($parent && $parentRole = $this->passportControl->findRole($parent)) {
             $role->setParentRole($parentRole);
+        }
+
+        if ($class) {
+            $role->setClass($class);
         }
 
         $this->passportControl->createNewRole($role);
@@ -97,6 +109,6 @@ class RoleCommand extends Command
             return;
         }
 
-        $output->writeln('Role not found in database.');
+        throw new Exception('Role not found in database');
     }
 }
