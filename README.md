@@ -12,10 +12,12 @@ Simply add to the `config/packages.php`
 
 // use statements here
 use Bone\Passport\PassportPackage;
+use Del\Passport\PassportPackage as DelPassportPackage;
 
 return [
     'packages' => [
         // packages here...,
+        DelPassportPackage::class,
         PassportPackage::class,
     ],
     // ...
