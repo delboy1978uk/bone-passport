@@ -9,9 +9,9 @@
         }
     ],
     "require": {
-        "php": ">7.1",
-        "delboy1978uk/barnacle": "^2.2",
-        "delboy1978uk/bone-doctrine": "^1.1",
+        "php": "^8.2",
+        "delboy1978uk/barnacle": "^2.5",
+        "delboy1978uk/bone-doctrine": "^2.11",
         "delboy1978uk/passport": "*"
     },
     "require-dev": {
