@@ -7,25 +7,20 @@ namespace Bone\Passport;
 use Barnacle\Container;
 use Barnacle\RegistrationInterface;
 use Bone\Console\CommandRegistrationInterface;
+use Bone\Contracts\Container\FixtureProviderInterface;
 use Bone\Passport\Command\PassportCommand;
 use Bone\Passport\Command\RoleCommand;
+use Bone\Passport\Fixtures\LoadRoles;
 use Del\Passport\PassportControl;
 use Doctrine\ORM\EntityManager;
 
-class PassportPackage implements RegistrationInterface, CommandRegistrationInterface
+class PassportPackage implements RegistrationInterface, CommandRegistrationInterface, FixtureProviderInterface
 {
-    /**
-     * @param Container $c
-     */
     public function addToContainer(Container $c)
     {
 
     }
 
-    /**
-     * @param Container $container
-     * @return array
-     */
     public function registerConsoleCommands(Container $container): array
     {
         $passportControl = $container->get(PassportControl::class);
@@ -37,4 +32,10 @@ class PassportPackage implements RegistrationInterface, CommandRegistrationInter
         ];
     }
 
+    public function getFixtures(): array
+    {
+        return [
+            LoadRoles::class,
+        ];
+    }
 }
