@@ -11,20 +11,25 @@ use Bone\Contracts\Container\FixtureProviderInterface;
 use Bone\Passport\Command\PassportCommand;
 use Bone\Passport\Command\RoleCommand;
 use Bone\Passport\Fixtures\LoadRoles;
+use Bone\Passport\Middleware\PassportControlMiddleware;
 use Del\Passport\PassportControl;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PassportPackage implements RegistrationInterface, CommandRegistrationInterface, FixtureProviderInterface
 {
     public function addToContainer(Container $c)
     {
-
+        $entityManager = $c->get(EntityManagerInterface::class);
+        $passportControl = new PassportControl($entityManager);
+        $middleware = new PassportControlMiddleware($passportControl);
+        $c[PassportControl::class] = $passportControl;
+        $c[PassportControlMiddleware::class] = $middleware;
     }
 
     public function registerConsoleCommands(Container $container): array
     {
         $passportControl = $container->get(PassportControl::class);
-        $em = $container->get(EntityManager::class);
+        $em = $container->get(EntityManagerInterface::class);
 
         return [
             new RoleCommand($passportControl),
