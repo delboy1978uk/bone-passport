@@ -13,31 +13,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class PassportControlMiddleware implements MiddlewareInterface
 {
-    /** @var PassportControl $passportControl */
-    private $passportControl;
+    private string $role;
+    private ?string $entityAttribute = null;
 
-    /** @var string $role */
-    private $role;
+    public function __construct(
+        private PassportControl $passportControl
+    ) {}
 
-    /** @var string $entityAttribute */
-    private $entityAttribute;
-
-    /**
-     * PassportControlMiddleware constructor.
-     * @param PassportControl $passportControl
-     * @param string $role
-     * @param string|null $entityId
-     */
-    public function __construct(PassportControl $passportControl)
-    {
-        $this->passportControl = $passportControl;
-    }
-
-    /**
-     * @param string $role
-     * @param string|null $entityAttribute
-     * @return PassportControlMiddleware
-     */
     public function withOptions(string $role, string $entityAttribute = null): PassportControlMiddleware
     {
         $this->role = $role;
@@ -46,11 +28,6 @@ class PassportControlMiddleware implements MiddlewareInterface
         return $this;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var User $user */

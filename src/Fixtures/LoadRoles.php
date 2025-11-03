@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class LoadRoles implements FixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $root = new Role();
         $root->setRoleName('superuser');

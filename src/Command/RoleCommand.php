@@ -2,16 +2,14 @@
 
 namespace Bone\Passport\Command;
 
+use Bone\Console\Command;
 use Bone\Exception;
 use Del\Passport\Entity\Role;
 use Del\Passport\PassportControl;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 
@@ -20,19 +18,13 @@ class RoleCommand extends Command
     /** @var QuestionHelper $helper */
     private $helper;
 
-    /** @var PassportControl $passportControl */
-    private $passportControl;
-
-    public function __construct(PassportControl $passportControl)
-    {
-        $this->passportControl = $passportControl;
+    public function __construct(
+        private PassportControl $passportControl
+    ) {
         parent::__construct('passport:role');
     }
 
-    /**
-     * configure options
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Manages roles.');
         $this->setHelp('Create or remove roles.');
@@ -40,14 +32,7 @@ class RoleCommand extends Command
         $this->addArgument('role', InputArgument::REQUIRED, 'The role name');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int|null
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $operation = $input->getArgument('operation');
         $role = $input->getArgument('role');
@@ -57,20 +42,15 @@ class RoleCommand extends Command
                 $this->addRole($role, $input, $output);
                 break;
             case 'remove':
-                $this->removeRole($role, $input, $output);
+                $this->removeRole($role, $output);
                 break;
             default:
                 throw new Exception('Invalid operation, use either add or remove.');
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
-    /**
-     * @param string $name
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     */
     private function addRole(string $name, InputInterface $input, OutputInterface $output): void
     {
         $output->writeln('Creating ' . $name . ' role.');
@@ -93,12 +73,7 @@ class RoleCommand extends Command
         $this->passportControl->createNewRole($role);
     }
 
-    /**
-     * @param string $name
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     */
-    private function removeRole(string $name, InputInterface $input, OutputInterface $output): void
+    private function removeRole(string $name, OutputInterface $output): void
     {
         $output->writeln('Removing ' . $name . ' role.');
 
