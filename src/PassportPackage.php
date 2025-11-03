@@ -7,6 +7,7 @@ namespace Bone\Passport;
 use Barnacle\Container;
 use Barnacle\RegistrationInterface;
 use Bone\Console\CommandRegistrationInterface;
+use Bone\Contracts\Container\DependentPackagesProviderInterface;
 use Bone\Contracts\Container\FixtureProviderInterface;
 use Bone\Passport\Command\PassportCommand;
 use Bone\Passport\Command\RoleCommand;
@@ -15,7 +16,7 @@ use Bone\Passport\Middleware\PassportControlMiddleware;
 use Del\Passport\PassportControl;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PassportPackage implements RegistrationInterface, CommandRegistrationInterface, FixtureProviderInterface
+class PassportPackage implements RegistrationInterface, CommandRegistrationInterface, FixtureProviderInterface, DependentPackagesProviderInterface
 {
     public function addToContainer(Container $c): void
     {
@@ -41,6 +42,14 @@ class PassportPackage implements RegistrationInterface, CommandRegistrationInter
     {
         return [
             LoadRoles::class,
+        ];
+    }
+
+    public function getRequiredPackages(): array
+    {
+        return [
+            \Del\Passport\PassportPackage::class,
+            PassportPackage::class,
         ];
     }
 }
