@@ -79,6 +79,19 @@ class PassportControlMiddleware implements MiddlewareInterface
                 if ($entityId && $entitlement->getEntityId() === $entityId) {
                     $authorised = true;
                 }
+            } else {
+                foreach ($entitlement->getRole()->getChildren() as $child) {
+                    if ($child->getRoleName() === $role) {
+                        if (!$entityId) {
+                            $authorised = true;
+                            break;
+                        }
+
+                        if ($entityId && $entitlement->getEntityId() === $entityId) {
+                            $authorised = true;
+                        }
+                    }
+                }
             }
         }
 
