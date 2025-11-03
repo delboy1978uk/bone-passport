@@ -1,5 +1,5 @@
 # bone-passport
-Passport package for Bone Mvc Framework
+Passport package for Bone Framework
 ## installation
 Use Composer
 ```

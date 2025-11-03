@@ -14,18 +14,11 @@ use Doctrine\ORM\EntityManager;
 
 class PassportPackage implements RegistrationInterface, CommandRegistrationInterface
 {
-    /**
-     * @param Container $c
-     */
-    public function addToContainer(Container $c)
+    public function addToContainer(Container $c): void
     {
 
     }
 
-    /**
-     * @param Container $container
-     * @return array
-     */
     public function registerConsoleCommands(Container $container): array
     {
         $passportControl = $container->get(PassportControl::class);

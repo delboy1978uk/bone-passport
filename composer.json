@@ -9,13 +9,13 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "delboy1978uk/barnacle": "^2.5",
-        "delboy1978uk/bone-doctrine": "^2.11",
-        "delboy1978uk/passport": "*"
+        "delboy1978uk/bone-doctrine": "^2.14",
+        "delboy1978uk/passport": "1.2"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-latest"
     },
     "autoload": {
         "psr-4": {
