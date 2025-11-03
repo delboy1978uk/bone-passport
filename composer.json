@@ -12,7 +12,7 @@
         "php": "^8.4",
         "delboy1978uk/barnacle": "^2.5",
         "delboy1978uk/bone-doctrine": "^2.14",
-        "delboy1978uk/passport": "1.2"
+        "delboy1978uk/passport": "^1.2"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"
