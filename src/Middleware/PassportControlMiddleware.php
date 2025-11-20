@@ -20,7 +20,7 @@ class PassportControlMiddleware implements MiddlewareInterface
         private PassportControl $passportControl
     ) {}
 
-    public function withOptions(string $role, string $entityAttribute = null): PassportControlMiddleware
+    public function withOptions(string $role, ?string $entityAttribute = null): PassportControlMiddleware
     {
         $this->role = $role;
         $this->entityAttribute = $entityAttribute;
